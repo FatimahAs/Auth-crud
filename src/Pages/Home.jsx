@@ -73,7 +73,7 @@ export default function CharacterPage() {
 
   return (
     <div className="p-6 w-full mx-auto flex flex-col items-center justify-center">
-		  
+		  <div className="lg:w-100">
 			   <input
         type="text"
         placeholder="Search ...."
@@ -81,7 +81,7 @@ export default function CharacterPage() {
         onChange={(e) => setSearch(e.target.value)}
         className="p-2 w-full mb-4 rounded-xl border-1 border-[#faae2b]"
       />
-	
+	 </div>
 
       <div className="mb-6 p-4 rounded">
         <h2 className="text-xl font-semibold mb-3 text-[#00473e]">Add New Character</h2>
