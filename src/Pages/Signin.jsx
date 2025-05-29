@@ -8,41 +8,44 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
 
-    try {
-      const response = await axios.get("https://682199f9259dad2655afc0f9.mockapi.io/User");
-      const users = response.data;
+const handleLogin = async (e) => {
+  e.preventDefault();
 
-      const matchedUser = users.find(
-        (user) => user.email === email && user.password === password
-      );
+  try {
+    const response = await axios.get("https://682199f9259dad2655afc0f9.mockapi.io/User");
+    const users = response.data;
 
-      if (matchedUser) {
-        Swal.fire({
-          icon: "success",
-          title: "تم تسجيل الدخول بنجاح!",
-          confirmButtonText: "متابعة",
-        }).then(() => {
-          navigate("/", { state: { user: matchedUser } });
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "بيانات غير صحيحة",
-          text: "يرجى التحقق من البريد وكلمة المرور.",
-        });
-      }
-    } catch (error) {
-      console.error("Login error:", error);
+    const matchedUser = users.find(
+      (user) => user.email === email && user.password === password
+    );
+
+    if (matchedUser) {
+      localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
+
+      Swal.fire({
+        icon: "success",
+        title: "تم تسجيل الدخول بنجاح!",
+        confirmButtonText: "متابعة",
+      }).then(() => {
+        navigate("/", { state: { user: matchedUser } });
+      });
+    } else {
       Swal.fire({
         icon: "error",
-        title: "خطأ في الاتصال",
-        text: "تعذر الاتصال بالسيرفر. حاول مرة أخرى لاحقًا.",
+        title: "بيانات غير صحيحة",
+        text: "يرجى التحقق من البريد وكلمة المرور.",
       });
     }
-  };
+  } catch (error) {
+    console.error("Login error:", error);
+    Swal.fire({
+      icon: "error",
+      title: "خطأ في الاتصال",
+      text: "تعذر الاتصال بالسيرفر. حاول مرة أخرى لاحقًا.",
+    });
+  }
+};
 
   return (
     <div className="bg-gray-100 flex items-center justify-center p-4">
